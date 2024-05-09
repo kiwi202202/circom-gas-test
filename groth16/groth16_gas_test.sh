@@ -10,10 +10,20 @@
 
 set -e
 
-rm -rf build
-mkdir build
-cd build
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 
+current_dir=$(pwd)
+
+if [ "$script_dir" == "$current_dir" ]; then
+    rm -rf build
+    mkdir build
+    cd build
+else
+    echo "Warnging: Wrong Directory"
+    echo "Current Script Directory: $script_dir"
+    echo "Current Directory: $current_dir"
+    exit 1
+fi
 
 echo "Compiling circuit..."
 circom ${CIRCUIT_PATH} --r1cs --wasm -l ${CIRCUIT_LIB_PATH}
