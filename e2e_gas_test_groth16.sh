@@ -17,4 +17,4 @@ cd ./groth16
 
 cd ../hardhat
 
-npx hardhat test scripts/circuit_gas_test.js
+npx hardhat test scripts/groth16_gas_test.js

@@ -7,7 +7,8 @@
 # # we use input in circuit_js dir
 # INPUT_PATH=../../../inputs/sha256_test/input_64.json 
 # VERIFIER_SOL_PATH=../../hardhat/contracts/verifier.sol
-PROVE_SYSTEM=groth16
+
+PROVE_SYSTEM=fflonk
 
 set -e
 
@@ -35,16 +36,7 @@ node generate_witness.js ${CIRCUIT_NAME}.wasm ${INPUT_PATH} ../witness.wtns
 cd ..
 
 echo "Performing setup..."
-snarkjs ${PROVE_SYSTEM} setup ${CIRCUIT_NAME}.r1cs ${POT_PATH} circuit_0000.zkey 
-
-echo "Contributions..."
-snarkjs zkey contribute circuit_0000.zkey circuit_0001.zkey --name="1st Contributor Name" -v -e="random entropy"
-snarkjs zkey contribute circuit_0001.zkey circuit_0002.zkey --name="Second Contribution Name" -v -e="Another random entropy"
-snarkjs zkey export bellman circuit_0002.zkey  challenge_phase2_0003
-snarkjs zkey bellman contribute bn128 challenge_phase2_0003 response_phase2_0003 -e="some random text"
-snarkjs zkey import bellman circuit_0002.zkey response_phase2_0003 circuit_0003.zkey -n="Third contribution name"
-snarkjs zkey beacon circuit_0003.zkey circuit_final.zkey 0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f 10 -n="Final Beacon phase2"
-
+snarkjs ${PROVE_SYSTEM} setup ${CIRCUIT_NAME}.r1cs ${POT_PATH} circuit_final.zkey 
 
 echo "Exporting verification key..."
 snarkjs zkey export verificationkey circuit_final.zkey verification_key.json
