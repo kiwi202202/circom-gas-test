@@ -13,6 +13,8 @@ files=(
   # "powersOfTau28_hez_final_17.ptau"
   # "powersOfTau28_hez_final_21.ptau"
   "powersOfTau28_hez_final_22.ptau"
+  "powersOfTau28_hez_final_24.ptau"
+  "powersOfTau28_hez_final_25.ptau"
 )
 
 for file in "${files[@]}"
