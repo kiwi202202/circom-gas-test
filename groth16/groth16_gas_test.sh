@@ -27,7 +27,7 @@ else
 fi
 
 echo "Compiling circuit..."
-circom ${CIRCUIT_PATH} --r1cs --wasm -l ${CIRCUIT_LIB_PATH}
+circom ${CIRCUIT_PATH} --r1cs --wasm -l ${CIRCUIT_LIB_PATH_1} -l ${CIRCUIT_LIB_PATH_2}
 
 echo "Generating witness..."
 cd ${CIRCUIT_NAME}_js

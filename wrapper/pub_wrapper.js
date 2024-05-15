@@ -4,25 +4,42 @@ const path = require("path");
 
 const params = {
   internalInfo: {
+    circuitPaths: [
+      "../circuits/internal_circuit.circom",
+      "../node_modules/circomlib/circuits/sha256/sha256.circom",
+      "../node_modules/circomlib/circuits/bitify.circom",
+    ],
+    circuitName: "InternalCircuit",
     nPublics: 3,
     inputSize: 3,
     publicsBits: [64, 64, 64],
   },
-  internalCircuitPath: "../circuits/internal_circuit.circom",
-  internalCircuitName: "InternalCircuit",
 };
 
 const templatePath = path.join(__dirname, "pub_wrapper.circom.ejs");
-const template = fs.readFileSync(templatePath, "utf8");
 
-const outputFilePath = path.join(__dirname, "../circuits/OutputCircuit.circom");
+let template;
+try {
+  template = fs.readFileSync(templatePath, "utf8");
+  console.log("Template loaded successfully.");
+} catch (err) {
+  console.error("Error reading template file:", err);
+  process.exit(1);
+}
 
-ejs.render(template, params, (err, output) => {
-  if (err) {
-    console.error("Error rendering the template:", err);
-    return;
-  }
+// console.log(template);
 
-  console.log(output);
+const outputFilePath = path.join(
+  __dirname,
+  "../circuits/output_circuit.circom"
+);
+console.log("Output file path:", outputFilePath);
+
+try {
+  const output = ejs.render(template, params);
+  // console.log("Rendered output:\n", output);
   fs.writeFileSync(outputFilePath, output);
-});
+  console.log("Output written to file successfully.");
+} catch (err) {
+  console.error("Error:", err);
+}

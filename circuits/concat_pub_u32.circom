@@ -21,18 +21,18 @@ template Concat2U32() {
         b2n.in[i + 32] <== n2b1.out[i];
     }
 
-    // log("start n2b1 ================");
-    // for (var i = 0; i < 32; i++) {
-    //     log(n2b1.out[i]);
-    // }
-    // log("finish n2b1 ================");
+    log("start n2b1 ================");
+    for (var i = 0; i < 32; i++) {
+        log(n2b1.out[i]);
+    }
+    log("finish n2b1 ================");
 
 
-    // log("start n2b2 ================");
-    // for (var i = 0; i < 32; i++) {
-    //     log(n2b2.out[i]);
-    // }
-    // log("finish n2b2 ================");
+    log("start n2b2 ================");
+    for (var i = 0; i < 32; i++) {
+        log(n2b2.out[i]);
+    }
+    log("finish n2b2 ================");
 
     // log("start b2n ================");
     // for (var i = 0; i < 64; i++) {

@@ -1,3 +1,5 @@
+pragma circom 2.0.3;
+
 template InternalCircuit() {
     signal input in[3];
     signal output out[3];

@@ -1,12 +1,16 @@
 <%
-var internalCircuitPath = "path_to_internal_circuit.circom";
-var internalCircuitName = "InternalCircuit";
+var circuitPaths = internalInfo.circuitPaths;
+var internalCircuitName = internalInfo.circuitName;
 var nPublics = internalInfo.nPublics; 
 var publicsBits = internalInfo.publicsBits; 
 var totalBits = publicsBits.reduce((sum, bits) => sum + bits, 0); 
 %>
 
-include "<%- internalCircuitPath %>";
+pragma circom 2.0.3;
+
+<% circuitPaths.forEach(function(path) { %>
+include "<%- path %>";
+<% }); %>
 
 template Main() {
     signal input in[<%- internalInfo.inputSize %>];
@@ -22,19 +26,19 @@ template Main() {
 
     var offset = 0;
 
-    for (var i = 0; i < <%- nPublics %>; i++) {
-        bitsConverters[i] = Num2Bits(<%- publicsBits[i] %>);
-        bitsConverters[i].in <== internalCircuit.out[i];
+    <% for (var i = 0; i < nPublics; i++) { %>
+        bitsConverters[<%= i %>] = Num2Bits(<%= publicsBits[i] %>);
+        bitsConverters[<%= i %>].in <== internalCircuit.out[<%= i %>];
 
-        for (var j = 0; j < <%- publicsBits[i] %>; j++) {
-            hasher.in[offset + j] <== bitsConverters[i].out[j];
-        }
-        offset += <%- publicsBits[i] %>;
-    }
+        <% for (var j = 0; j < publicsBits[i]; j++) { %>
+            hasher.in[offset + <%= publicsBits[i] - 1 - j %>] <== bitsConverters[<%= i %>].out[<%= j %>];
+        <% } %>
+        offset += <%= publicsBits[i] %>;
+    <% } %>
 
     component resultConverter = Bits2Num(256);
     for (var i = 0; i < 256; i++) {
-        resultConverter.in[i] <== hasher.out[i];
+        resultConverter.in[i] <== hasher.out[255 - i];
     }
 
     out <== resultConverter.out;
