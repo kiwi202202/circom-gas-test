@@ -15,6 +15,13 @@ cd ./fflonk
 
 ./fflonk_gas_test.sh
 
+echo ""
+echo "=================================================="
+echo "TESTING CIRCUIT: ${CIRCUIT_NAME}"
+echo "USING INPUT: ${INPUT_PATH}"
+echo "=================================================="
+echo ""
+
 cd ../hardhat
 
 npx hardhat test scripts/fflonk_gas_test.js
