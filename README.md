@@ -1,5 +1,3 @@
----
-
 # Circom Gas Test Tool
 
 Welcome to the Circom Gas Test Tool, a practical repository created for developers interested in quickly testing the gas costs of snarkjs verifiers and experimenting with circuit optimization using SHA256 hashing. 
@@ -62,5 +60,6 @@ To run the end-to-end gas test script:
 
 Follow these steps to set up and start using the framework for testing and circuit optimization.
 
-
+## License
+This project is open-sourced under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
