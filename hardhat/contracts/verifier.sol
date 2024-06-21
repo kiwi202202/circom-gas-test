@@ -21,6 +21,11 @@
 pragma solidity >=0.7.0 <0.9.0;
 
 contract Groth16Verifier {
+
+    // Verification Results Mapping
+    mapping(uint256 => bool) public verificationResults;
+    uint256 public nonce = 0;  // Nonce to uniquely identify each verification attempt
+
     // Scalar field size
     uint256 constant r    = 21888242871839275222246405745257275088548364400416034343698204186575808495617;
     // Base field size
@@ -57,6 +62,7 @@ contract Groth16Verifier {
     uint16 constant pLastMem = 896;
 
     function verifyProof(uint[2] calldata _pA, uint[2][2] calldata _pB, uint[2] calldata _pC, uint[1] calldata _pubSignals) public returns (bool) {
+        bool myIsValid;
         assembly {
             function checkField(v) {
                 if iszero(lt(v, q)) {
@@ -163,8 +169,19 @@ contract Groth16Verifier {
             // Validate all evaluations
             let isValid := checkPairing(_pA, _pB, _pC, _pubSignals, pMem)
 
-            mstore(0, isValid)
-             return(0, 0x20)
+            myIsValid := isValid
+            // mstore(0, isValid)
+            //  return(0, 0x20)
          }
+         return myIsValid;
      }
+ 
+     // Wrapper function to store verification results
+    function verifyAndStoreResult(uint[2] calldata _pA, uint[2][2] calldata _pB, uint[2] calldata _pC, uint[1] calldata _pubSignals) public returns (bool) {
+        bool result = verifyProof(_pA, _pB, _pC, _pubSignals);
+        verificationResults[nonce] = result;
+        nonce++;  // Increment nonce after storing the result
+        return result;
+    }
+ 
  }

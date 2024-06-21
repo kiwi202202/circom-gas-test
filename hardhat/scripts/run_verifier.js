@@ -32,7 +32,7 @@ async function main() {
   console.log(publicSignals);
 
   // const verifierABI = JSON.parse(fs.readFileSync('path_to_ABI.json', 'utf8'));
-  const verifierAddress = "0x4bc328BA0D8d70D7881A41033aA007cDA7CDca71";
+  const verifierAddress = "0x5E7D20c9B63790FB4273954eb26442Dec32823F3";
   const verifier = await ethers.getContractAt(
     "contracts/verifier.sol:Groth16Verifier",
     verifierAddress
@@ -41,7 +41,7 @@ async function main() {
   // finally, we estimate the gas consumption using the generated proof and the generated verifier.sol
   async function try_estimateGas() {
     try {
-      const verifyResult = await verifier.verifyProof(
+      const verifyResult = await verifier.verifyAndStoreResult(
         jsonCalldata[0],
         jsonCalldata[1],
         jsonCalldata[2],
