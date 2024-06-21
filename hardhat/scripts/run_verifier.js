@@ -45,7 +45,8 @@ async function main() {
         jsonCalldata[0],
         jsonCalldata[1],
         jsonCalldata[2],
-        jsonCalldata[3]
+        jsonCalldata[3],
+        { gasLimit: 2000000 }
       );
       console.log(verifyResult);
       // console.log(`Gas Consumption: ${result.gas.toString()}`);

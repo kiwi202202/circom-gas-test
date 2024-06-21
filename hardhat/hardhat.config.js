@@ -22,6 +22,7 @@ module.exports = {
       url: process.env.SEPOLIA_RPC_URL,
       accounts: [`0x${PRIVATE_KEY}`],
       chainId: 11155111,
+      gas: 2000000,
     },
   },
 };
